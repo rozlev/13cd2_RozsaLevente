@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { error } = require("console");
 app.use(cors())
 app.use(bodyParser.json());
 
@@ -39,6 +40,17 @@ app.get("/v6",(req, res) => {
         return res.json(result)
     })
 })
+
+app.post("/vuj", (req, res) => {
+    const sql = "INSERT INTO `versenyzok` (`ID`, `versenyzo`) VALUES ('10','Rózsa Levente')";
+    const VALUES = ['7', 'Kiss János'];
+    const values = [req.body.ID, req.body.versenyzo];
+
+    db.query(sql, VALUES, (err, result) => {
+        if (err) return res.status(500).json({error: "Hibás adatbázis művelet!"});
+        return res.json(result);
+    });
+});
 
 app.listen(3000, () => {
     console.log("A szerver a 3000 porton fut!");
